@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function export_settings_menu() {
+  $items['export_settings'] = array(
+    'title' => 'Export settings',
+    'page callback' => 'export_settings_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function export_settings_page() {
+  $output = drupal_get_form('export_settings_vars_form');
+  return $output;
+}
+
+function export_settings_vars_form() {
+  include_once DRUPAL_ROOT . '/includes/utility.inc';
+  global $conf;
+  foreach ($conf as $key => $value) {
+    if (is_array($value)) {
+      $value = '<pre>' . drupal_var_export($value) . '</pre>';
+    }
+    $vars[] = array('id' => $key, 'value_name' => $key, 'variable' => $value);
+  }
+
+  $header = array(
+    'value_name' => t('Value Name'),
+    'variable' => t('Variable'),
+  );
+  $options = array();
+  foreach ($vars as $var) {
+    $options[$var['id']] = array(
+      'value_name' => $var['value_name'],
+      'variable' => $var['variable'],
+    );
+  }
+  $form['table'] = array(
+    '#type' => 'tableselect',
+    '#header' => $header,
+    '#options' => $options,
+    '#empty' => t('No variables found'),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  return $form;
+}
+
+function vars_to_html($vars) {
+  include_once DRUPAL_ROOT . '/includes/utility.inc';
+  $res = '<table><tbody>';
+  foreach ($vars as $key => $value) {
+    $res .= '<tr>';
+    $res .= '<td>' . $key . '</td>';
+    if (is_array($value)) {
+      $value = '<pre>' . drupal_var_export($value) . '</pre>';
+    }
+    $res .= '<td>' . $value . '</td>';
+    $res .= '</tr>';
+  }
+  $res .= '</tbody></table>';
+  return $res;
+}
+
+function recurseTree($var) {
+  $out = '<li>';
+  foreach ($var as $v) {
+    if (is_array($v)) {
+      $out .= '<ul>' . recurseTree($v) . '</ul>';
+    }
+    else {
+      $out .= $v;
+    }
+  }
+  return $out . '</li>';
+}
+
+
