@@ -5,7 +5,7 @@
  */
 function export_settings_menu() {
   $items['export_settings'] = array(
-    'title' => 'Export settings',
+    'title' => 'Export site settings',
     'page callback' => 'export_settings_page',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
@@ -22,6 +22,20 @@ function export_settings_page() {
 
 function export_settings_vars_form($form, &$form_state) {
   $form = array();
+
+  $form['module_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Module name'),
+    '#default_falue' => 'my_module',
+    '#size' => 60,
+    '#maxlength' => 128,
+    );
+
+    $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Generate module'),
+  );
+
   include_once DRUPAL_ROOT . '/includes/utility.inc';
   global $conf;
   foreach ($conf as $key => $value) {
@@ -48,21 +62,47 @@ function export_settings_vars_form($form, &$form_state) {
     '#options' => $options,
     '#empty' => t('No variables found'),
   );
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Generate module'),
-  );
+
   return $form;
 }
 
 function export_settings_vars_form_submit($form, &$form_state) {
   // debug($form_state);
   // dsm($form);
-  // dsm($form_state['values']['table']);
+  // dsm($form_state['values']);
+  $module_code = '';
   foreach ($form_state['values']['table'] as $selected_item) {
     if($selected_item) {
-      // debug($selected_item);
+      $variable = variable_get($selected_item);
+      if (is_array($variable)) {
+        $variable = drupal_var_export($variable);
+      }
+      $module_code .= "  variable_set('$selected_item', '$variable');\n";
     }
+  }
+  if($module_code) {
+    $module_name = $form_state['values']['module_name'] == '' ? 'my_module' : $form_state['values']['module_name'];
+    // if($module_name == '') $module_name = 'my_module';
+    $module_code =
+    '<?php
+
+/**
+* Implements hook_enable().
+*/
+'.
+$module_name . '_enable(){
+'.
+    $module_code.
+    '}';
+    dsm($module_code);
+    // header('Content-Disposition: attachment; filename="my_module.module"');
+    // header('Content-Type: text/plain');
+    // header('Content-Length: ' . strlen($module_code));
+    // header('Connection: close');
+    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Content-Type: text/module');
+    header('Content-Disposition: attachment; filename="my_module.module"');
+    // die(print $module_code);
   }
 }
 
