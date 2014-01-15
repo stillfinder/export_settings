@@ -15,11 +15,13 @@ function export_settings_menu() {
 }
 
 function export_settings_page() {
-  $output = drupal_get_form('export_settings_vars_form');
-  return $output;
+  $form = drupal_get_form('export_settings_vars_form');
+  $form = drupal_render($form);
+  return $form;
 }
 
-function export_settings_vars_form() {
+function export_settings_vars_form($form, &$form_state) {
+  $form = array();
   include_once DRUPAL_ROOT . '/includes/utility.inc';
   global $conf;
   foreach ($conf as $key => $value) {
@@ -48,9 +50,20 @@ function export_settings_vars_form() {
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Submit'),
+    '#value' => t('Generate module'),
   );
   return $form;
+}
+
+function export_settings_vars_form_submit($form, &$form_state) {
+  // debug($form_state);
+  // dsm($form);
+  // dsm($form_state['values']['table']);
+  foreach ($form_state['values']['table'] as $selected_item) {
+    if($selected_item) {
+      // debug($selected_item);
+    }
+  }
 }
 
 function vars_to_html($vars) {
