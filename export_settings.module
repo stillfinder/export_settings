@@ -29,9 +29,9 @@ function export_settings_vars_form($form, &$form_state) {
     '#default_falue' => 'my_module',
     '#size' => 60,
     '#maxlength' => 128,
-    );
+  );
 
-    $form['submit'] = array(
+  $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Generate module'),
   );
@@ -67,12 +67,9 @@ function export_settings_vars_form($form, &$form_state) {
 }
 
 function export_settings_vars_form_submit($form, &$form_state) {
-  // debug($form_state);
-  // dsm($form);
-  // dsm($form_state['values']);
   $module_code = '';
   foreach ($form_state['values']['table'] as $selected_item) {
-    if($selected_item) {
+    if ($selected_item) {
       $variable = variable_get($selected_item);
       if (is_array($variable)) {
         $variable = drupal_var_export($variable);
@@ -80,25 +77,18 @@ function export_settings_vars_form_submit($form, &$form_state) {
       $module_code .= "  variable_set('$selected_item', '$variable');\n";
     }
   }
-  if($module_code) {
+  if ($module_code) {
     $module_name = $form_state['values']['module_name'] == '' ? 'my_module' : $form_state['values']['module_name'];
-    // if($module_name == '') $module_name = 'my_module';
-    $module_code =
-    '<?php
+    $module_code = '<?php
 
 /**
 * Implements hook_enable().
 */
-'.
-$module_name . '_enable(){
-'.
-    $module_code.
-    '}';
+' . $module_name . '_enable() {
+' . $module_code . '}';
+
     dsm($module_code);
-    // header('Content-Disposition: attachment; filename="my_module.module"');
-    // header('Content-Type: text/plain');
-    // header('Content-Length: ' . strlen($module_code));
-    // header('Connection: close');
+
     header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
     header('Content-Type: text/module');
     header('Content-Disposition: attachment; filename="my_module.module"');
@@ -134,5 +124,4 @@ function recurseTree($var) {
   }
   return $out . '</li>';
 }
-
 
