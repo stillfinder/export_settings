@@ -15,6 +15,6 @@ Installation
 
 Usage
 -----
-1. Goto export_settngs url.
+1. Goto export_settings url.
 2. Select settings for export.
 3. Push Export Settings button.
