@@ -67,7 +67,27 @@ function export_settings_vars_form($form, &$form_state) {
   return $form;
 }
 
+function export_settings_vars_to_module_file($form, $form_state) {
+  // Create array of module file
+  $module_code = array();
+  foreach ($form_state['values']['table'] as $selected_item) {
+    if($selected_item) {
+      $variable = variable_get($selected_item);
+      if(is_array($variable)) {
+        $variable = drupal_var_export($variable);
+      }
+      $module_code[] = "  variable_set('$selected_item', '$variable');\n";
+    }
+  }
+
+  $path = drupal_get_path('module', 'export_settings');
+  file_put_contents($path . '/test1.module', $module_code);
+}
+
 function export_settings_vars_form_submit($form, &$form_state) {
+  export_settings_vars_to_module_file($form, &$form_state);
+  return;
+
   $module_code = '';
   foreach ($form_state['values']['table'] as $selected_item) {
     if ($selected_item) {
@@ -90,9 +110,9 @@ function export_settings_vars_form_submit($form, &$form_state) {
 
     dsm($module_code);
 
-    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-    header('Content-Type: text/module');
-    header('Content-Disposition: attachment; filename="my_module.module"');
+    // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    // header('Content-Type: text/module');
+    // header('Content-Disposition: attachment; filename="my_module.module"');
     // die(print $module_code);
   }
 }
