@@ -4,11 +4,12 @@
  * Implements hook_menu().
  */
 function export_settings_menu() {
-  $items['export_settings'] = array(
+  $items['admin/config/system/export_settings'] = array(
     'title' => 'Export site settings',
+    'description' => t('Export settings'),
     'page callback' => 'export_settings_page',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
   );
 
   return $items;
