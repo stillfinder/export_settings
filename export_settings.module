@@ -68,20 +68,142 @@ function export_settings_vars_form($form, &$form_state) {
 }
 
 function export_settings_vars_to_module_file($form, $form_state) {
-  // Create array of module file
-  $module_code = array();
+  // Create array of .module file
+  $module_name   = $form_state['values']['module_name'] == '' ? 'my_module' : $form_state['values']['module_name'];
+  $module_code   = array();
+  $module_code[] = "<?php\n";
+  $module_code[] = "/**\n";
+  $module_code[] = "* Implements hook_enable().\n";
+  $module_code[] = "*/\n";
+  $module_code[] = 'function ' . $module_name . "_enable() {\n";
   foreach ($form_state['values']['table'] as $selected_item) {
-    if($selected_item) {
+    if ($selected_item) {
       $variable = variable_get($selected_item);
-      if(is_array($variable)) {
+      if (is_array($variable)) {
         $variable = drupal_var_export($variable);
       }
-      $module_code[] = "  variable_set('$selected_item', '$variable');\n";
+      else {
+        $variable = "'" . $variable . "'";
+      }
+      /*
+        TODO Fix ' in $variable. (for example, replase ' -> \')
+      */
+      $module_code[] = "  variable_set('$selected_item', $variable);\n";
     }
   }
+  $module_code[] = "}\n";
 
-  $path = drupal_get_path('module', 'export_settings');
-  file_put_contents($path . '/test1.module', $module_code);
+  // save file into generated_modules folder
+  $path = drupal_get_path('module', 'export_settings') . '/generated_modules/';
+  file_put_contents($path . '/' . $module_name . '.module', $module_code);
+
+  // Create array of .info file
+  $module_info_file   = array();
+  $module_info_file[] = "name = " . $module_name . "\n";
+  $module_info_file[] = "description = Export Drupal settings " . $module_name . "\n";
+  $module_info_file[] = "package = Export Settings\n";
+  $module_info_file[] = "core = 7.x\n";
+  file_put_contents($path . $module_name . '.info', $module_info_file);
+
+  // print tar file
+  drupal_add_http_header('Content-type', 'application/x-tar');
+  drupal_add_http_header('Content-Disposition', 'attachment; filename="' . $module_name . 'tar"');
+  drupal_send_headers();
+
+  $contents = file_get_contents($path . $module_name . '.module');
+  print export_settings_tar_create($module_name . '/' . $module_name . '.module', $contents);
+  $contents = file_get_contents($path . $module_name . '.info');
+  print export_settings_tar_create($module_name . '/' . $module_name . '.info', $contents);
+  print pack("a1024", "");
+  exit;
+}
+
+/**
+ * Tar creation function. Written by dmitrig01.
+ *
+ * @param $name
+ *   Filename of the file to be tarred.
+ * @param $contents
+ *   String contents of the file.
+ *
+ * @return
+ *   A string of the tar file contents.
+ */
+function export_settings_tar_create($name, $contents) {
+  /* http://www.mkssoftware.com/docs/man4/tar.4.asp */
+
+
+  /* http://www.phpclasses.org/browse/file/21200.html */
+
+
+  $tar = '';
+  $bigheader = $header = '';
+  if (strlen($name) > 100) {
+    $bigheader = pack("a100a8a8a8a12a12a8a1a100a6a2a32a32a8a8a155a12",
+      '././@LongLink', '0000000', '0000000', '0000000',
+      sprintf("%011o", strlen($name)), '00000000000',
+      '        ', 'L', '', 'ustar ', '0',
+      '', '', '', '', '', ''
+    );
+
+    $bigheader .= str_pad($name, floor((strlen($name) + 512 - 1) / 512) * 512, "\0");
+
+    $checksum = 0;
+    for ($i = 0; $i < 512; $i++) {
+      $checksum += ord(substr($bigheader, $i, 1));
+    }
+    $bigheader = substr_replace($bigheader, sprintf("%06o", $checksum) . "\0 ", 148, 8);
+  }
+  // book the memorie area
+  $header = pack("a100a8a8a8a12a12a8a1a100a6a2a32a32a8a8a155a12",
+    // 0     100     File name
+    substr($name, 0, 100),
+    // File permissions
+    '100644 ',
+    // UID,
+    '   765 ',
+    // GID,
+    '   765 ',
+    // Filesize,
+    sprintf("%11s ", decoct(strlen($contents))),
+    // Creation time
+    sprintf("%11s", decoct(REQUEST_TIME)),
+    // 148     8         Check sum for header block
+    '        ',
+    // 156     1         Link indicator / ustar Type flag
+    '',
+    // 157     100     Name of linked file
+    '',
+    // 257     6         USTAR indicator "ustar"
+    'ustar ',
+    // 263     2         USTAR version "00"
+    ' ',
+    // 265     32         Owner user name
+    '',
+    // 297     32         Owner group name
+    '',
+    // 329     8         Device major number
+    '',
+    // 337     8         Device minor number
+    '',
+    // 345     155     Filename prefix
+    '',
+    // 500     12         ??
+    ''
+  );
+
+  $checksum = 0;
+  for ($i = 0; $i < 512; $i++) {
+    $checksum += ord(substr($header, $i, 1));
+  }
+  $header = substr_replace($header, sprintf("%06o", $checksum) . "\0 ", 148, 8);
+  $tar = $bigheader . $header;
+
+  $buffer = str_split($contents, 512);
+  foreach ($buffer as $item) {
+    $tar .= pack("a512", $item);
+  }
+  return $tar;
 }
 
 function export_settings_vars_form_submit($form, &$form_state) {

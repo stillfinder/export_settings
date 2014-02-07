@@ -1,0 +1,577 @@
+<?php
+/**
+* Implements hook_enable().
+*/
+function my_module_enable() {
+  variable_set('additional_settings__active_tab_brief', 'edit-comment');
+  variable_set('admin_theme', 'seven');
+  variable_set('anonymous', 'Anonymous');
+  variable_set('apachesolr_default_environment', 'solr');
+  variable_set('apachesolr_search_mlt_blocks', array(
+  'mlt-001' => array(
+    'name' => 'More like this',
+    'num_results' => '5',
+    'mlt_fl' => array(
+      'label' => 'label',
+      'taxonomy_names' => 'taxonomy_names',
+    ),
+    'mlt_env_id' => 'solr',
+    'mlt_mintf' => '1',
+    'mlt_mindf' => '1',
+    'mlt_minwl' => '3',
+    'mlt_maxwl' => '15',
+    'mlt_maxqt' => '20',
+    'mlt_type_filters' => array(),
+    'mlt_custom_filters' => '',
+    'delta' => 'mlt-001',
+  ),
+));
+  variable_set('backup_migrate_destination_id', 'download');
+  variable_set('backup_migrate_profile_id', 'default');
+  variable_set('backup_migrate_source_id', 'db');
+  variable_set('block_cache', '0');
+  variable_set('cache', '0');
+  variable_set('cacheexclude_list', 'saml_login
+<front>');
+  variable_set('cacheexclude_node_types', array(
+  'article' => 0,
+  'page' => 0,
+));
+  variable_set('cache_lifetime', '0');
+  variable_set('clean_url', '1');
+  variable_set('comment_anonymous_brief', '0');
+  variable_set('comment_brief', '2');
+  variable_set('comment_default_mode_brief', '1');
+  variable_set('comment_default_per_page_brief', '50');
+  variable_set('comment_form_location_brief', '1');
+  variable_set('comment_page', '0');
+  variable_set('comment_preview_brief', '1');
+  variable_set('comment_subject_field_brief', '0');
+  variable_set('configurable_timezones', '0');
+  variable_set('cron_key', 'i5m86WIRLITDht_SC-yHjkWJlNatWQAZmqFgi6EvkNk');
+  variable_set('cron_last', '1391779336');
+  variable_set('css_js_query_string', 'mzwv1c');
+  variable_set('ctools_last_cron', '1391779339');
+  variable_set('date_api_version', '7.2');
+  variable_set('date_default_timezone', 'UTC');
+  variable_set('date_first_day', '0');
+  variable_set('date_format_privatemsg_current_day', 'g:i a');
+  variable_set('date_format_privatemsg_current_year', 'M j');
+  variable_set('date_format_privatemsg_years', 'n/j/y');
+  variable_set('dblog_row_limit', '1000');
+  variable_set('default_nodes_main', '10');
+  variable_set('drupal_http_request_fails', '');
+  variable_set('drupal_private_key', 'EaUsA8ERdTDBt7Cq-qvrWuVxVNqFXH-JJZfGphLzEjY');
+  variable_set('email__active_tab', 'edit-email-admin-created');
+  variable_set('empty_timezone_message', '0');
+  variable_set('error_level', '1');
+  variable_set('features_codecache', array(
+  'ja13081_manual_creating_brief' => array(
+    'field_base' => 'c426f6335057bf1ca31ab833fa3512c6',
+    'field_instance' => '0459ccdab87b1ed1865fd1ccd148629d',
+    'taxonomy' => '2a044efb76cff41fd83ec7d46625db92',
+    'user_permission' => '72baae4b0e248b737c072697a9904698',
+    'dependencies' => '7cd1ec1551c95bcb807d5c9a1c1a33d3',
+    'node' => '637def00312aacc2d85d4ec3caa6d7de',
+    'views_view' => 'a9c9a0a84566f7962dfd3057d1f60f6c',
+  ),
+  'briefs_menu_13080' => array(
+    'dependencies' => 'ce43b2cc540f90d9ef38740c8f0b0f83',
+    'menu_custom' => '73b0a0ecd0ad9f0620d4afdaf7ab4b41',
+  ),
+  'ja13184_briefs_by_category' => array(
+    'dependencies' => 'f334ac27b969221f20f7aa53080cd124',
+    'views_view' => 'bda313b897d9f99d04f1b515eb197134',
+  ),
+  'ja13084_deleting_briefs' => array(
+    'menu_custom' => '73b0a0ecd0ad9f0620d4afdaf7ab4b41',
+    'menu_links' => '81cdf6a31965eb995a422cfb189555d8',
+    'dependencies' => '1357a02b1ce14dc2ccab81fdd3dd5b7f',
+    'views_view' => '900785dcb8a6bc519eafd8149a57cd4b',
+    'user_permission' => '4786aee8440afa13aa4fe33f9136187d',
+  ),
+  'ja13412_lock_brief_all_briefs_view' => array(
+    'dependencies' => '242d389f813a156ec0b8c564d5aff0c6',
+    'views_view' => '4bd60c8869dd098445cdb944f7109638',
+  ),
+  'ja13091_workflow_ckeditor_settings' => array(
+    'variable' => '9fea58bdacf255f61f687187fe2bf413',
+    'ckeditor_profile' => '5af4d83af2ddb76063e84dc546e17d23',
+    'field_base' => 'bd3f17baa67ee38f57d9cf460c0edeb9',
+    'field_instance' => 'd11a5882dcb9528d819588f684997b84',
+    'filter' => '4804cf8fe90be8778a568775abc85d57',
+    'user_role' => '74b79f7dc909d9d09ba9d2e99fa6df42',
+    'user_permission' => 'f268214fc6f47d658e6347af84ce4b8b',
+    'workflow' => 'a2aa9fb4be140bb309fcab93ad18d4ca',
+    'workflow_access' => '9c1602c5c39c7bc05fb082203ba9cfec',
+    'dependencies' => '74b9a5289645fc99f14fbcba3db188fd',
+  ),
+  'ja13215_solr_settings' => array(
+    'dependencies' => '3d23ce1ab1511595dea16e174efe6459',
+    'apachesolr_environment' => 'a02f9464baaded9be54c4c0a1193d503',
+  ),
+  'my_drafts_view_ja13183' => array(
+    'dependencies' => '242d389f813a156ec0b8c564d5aff0c6',
+  ),
+));
+  variable_set('features_ignored_orphans', array());
+  variable_set('features_semaphore', array());
+  variable_set('field_bundle_settings_user__user', array(
+  'view_modes' => array(
+    'full' => array(
+      'custom_settings' => TRUE,
+    ),
+  ),
+  'extra_fields' => array(
+    'form' => array(),
+    'display' => array(
+      'summary' => array(
+        'default' => array(
+          'weight' => '5',
+          'visible' => TRUE,
+        ),
+        'full' => array(
+          'weight' => '5',
+          'visible' => TRUE,
+        ),
+      ),
+    ),
+  ),
+));
+  variable_set('file_default_scheme', 'public');
+  variable_set('file_private_path', '');
+  variable_set('file_public_path', 'sites/default/files');
+  variable_set('file_temporary_path', '/tmp');
+  variable_set('filter_fallback_format', 'plain_text');
+  variable_set('install_profile', 'standard');
+  variable_set('install_task', 'done');
+  variable_set('install_time', '1382433725');
+  variable_set('maintenance_mode', '0');
+  variable_set('menu_expanded', array());
+  variable_set('menu_masks', array(
+  503,
+  501,
+  493,
+  253,
+  251,
+  250,
+  247,
+  246,
+  245,
+  127,
+  126,
+  125,
+  124,
+  123,
+  122,
+  121,
+  117,
+  63,
+  62,
+  61,
+  60,
+  59,
+  58,
+  44,
+  31,
+  30,
+  29,
+  28,
+  27,
+  26,
+  24,
+  21,
+  15,
+  14,
+  13,
+  12,
+  11,
+  7,
+  6,
+  5,
+  3,
+  2,
+  1,
+));
+  variable_set('menu_options_brief', array(
+  'main-menu',
+));
+  variable_set('menu_parent_brief', 'main-menu:0');
+  variable_set('node_admin_theme', '1');
+  variable_set('node_cron_last', '1389364404');
+  variable_set('node_options_brief', array(
+  'status',
+  'revision',
+));
+  variable_set('node_options_page', array(
+  'status',
+));
+  variable_set('node_preview_brief', '1');
+  variable_set('node_submitted_brief', '0');
+  variable_set('node_submitted_page', '');
+  variable_set('page_cache_maximum_age', '0');
+  variable_set('page_compression', '1');
+  variable_set('path_alias_whitelist', array(
+  'node' => TRUE,
+));
+  variable_set('preprocess_css', '0');
+  variable_set('preprocess_js', '0');
+  variable_set('privatemsg_default_redirect', '<new-message>');
+  variable_set('privatemsg_default_redirect_reply', '0');
+  variable_set('privatemsg_display_disabled_message', '1');
+  variable_set('privatemsg_display_fields', array(
+  'participants' => 'participants',
+  'thread_started' => 0,
+  'count' => 0,
+  'tags' => 0,
+));
+  variable_set('privatemsg_display_link_self', '0');
+  variable_set('privatemsg_display_loginmessage', '1');
+  variable_set('privatemsg_display_on_comments', '0');
+  variable_set('privatemsg_display_on_teaser', '1');
+  variable_set('privatemsg_display_preview_button', '0');
+  variable_set('privatemsg_display_profile_links', '1');
+  variable_set('privatemsg_filter_default_list', '0');
+  variable_set('privatemsg_filter_inbox_tag', '1');
+  variable_set('privatemsg_filter_searchbody', '0');
+  variable_set('privatemsg_flush_days', '30');
+  variable_set('privatemsg_flush_enabled', '0');
+  variable_set('privatemsg_flush_max', '200');
+  variable_set('privatemsg_link_node_types', array(
+  'article' => 0,
+  'page' => 0,
+  'brief' => 0,
+));
+  variable_set('privatemsg_per_page', '25');
+  variable_set('privatemsg_view_default_amount', '10');
+  variable_set('privatemsg_view_max_amount', '20');
+  variable_set('privatemsg_view_use_max_as_default', '0');
+  variable_set('private_message_view_template', 'privatemsg-view');
+  variable_set('search_active_modules', array(
+  'node',
+  'user',
+  'apachesolr_search',
+));
+  variable_set('settings__active_tab', 'edit-links');
+  variable_set('simplesamlphp_auth_activate', '1');
+  variable_set('simplesamlphp_auth_allowdefaultlogin', '1');
+  variable_set('simplesamlphp_auth_allowdefaultloginroles', array(
+  3 => '3',
+));
+  variable_set('simplesamlphp_auth_allowdefaultloginusers', '');
+  variable_set('simplesamlphp_auth_allowsetdrupalpwd', '0');
+  variable_set('simplesamlphp_auth_authsource', 'pp-integration-test');
+  variable_set('simplesamlphp_auth_forcehttps', '1');
+  variable_set('simplesamlphp_auth_installdir', '/Applications/MAMP/simplesaml/');
+  variable_set('simplesamlphp_auth_logoutgotourl', '');
+  variable_set('simplesamlphp_auth_mailattr', 'Email');
+  variable_set('simplesamlphp_auth_registerusers', '1');
+  variable_set('simplesamlphp_auth_roleevaleverytime', '1');
+  variable_set('simplesamlphp_auth_rolepopulation', '3:Roles,=,ContentAdministrator|4:Roles,=,ContentSeo|5:Roles,=,ContentWriter|6:Roles,=,ContentEditor');
+  variable_set('simplesamlphp_auth_unique_id', 'Id');
+  variable_set('simplesamlphp_auth_user_name', 'Name');
+  variable_set('simplesamlphp_auth_user_register_original', '2');
+  variable_set('site_403', '');
+  variable_set('site_404', '');
+  variable_set('site_default_country', '');
+  variable_set('site_frontpage', 'node/1');
+  variable_set('site_mail', 'vadim.skidanov@pearl.com');
+  variable_set('site_name', 'Content Publishing Platform ');
+  variable_set('site_slogan', '');
+  variable_set('theme_content_settings', array(
+  'toggle_logo' => 1,
+  'toggle_name' => 0,
+  'toggle_slogan' => 1,
+  'toggle_node_user_picture' => 1,
+  'toggle_comment_user_picture' => 1,
+  'toggle_comment_user_verification' => 1,
+  'toggle_favicon' => 1,
+  'toggle_main_menu' => 0,
+  'toggle_secondary_menu' => 1,
+  'default_logo' => 1,
+  'logo_path' => '',
+  'logo_upload' => '',
+  'default_favicon' => 1,
+  'favicon_path' => '',
+  'favicon_upload' => '',
+));
+  variable_set('theme_default', 'content');
+  variable_set('update_check_disabled', '0');
+  variable_set('update_check_frequency', '1');
+  variable_set('update_last_check', '1391779347');
+  variable_set('update_last_email_notification', '1391779336');
+  variable_set('update_notification_threshold', 'all');
+  variable_set('update_notify_emails', array(
+  'vadim.skidanov@pearl.com',
+));
+  variable_set('user_admin_role', '3');
+  variable_set('user_cancel_method', 'user_cancel_block');
+  variable_set('user_default_timezone', '0');
+  variable_set('user_email_verification', '0');
+  variable_set('user_mail_cancel_confirm_body', '[user:name],
+
+A request to cancel your account has been made at [site:name].
+
+You may now cancel your account on [site:url-brief] by clicking this link or copying and pasting it into your browser:
+
+[user:cancel-url]
+
+NOTE: The cancellation of your account is not reversible.
+
+This link expires in one day and nothing will happen if it is not used.
+
+--  [site:name] team');
+  variable_set('user_mail_cancel_confirm_subject', 'Account cancellation request for [user:name] at [site:name]');
+  variable_set('user_mail_password_reset_body', '[user:name],
+
+A request to reset the password for your account has been made at [site:name].
+
+You may now log in by clicking this link or copying and pasting it to your browser:
+
+[user:one-time-login-url]
+
+This link can only be used once to log in and will lead you to a page where you can set your password. It expires after one day and nothing will happen if it's not used.
+
+--  [site:name] team');
+  variable_set('user_mail_password_reset_subject', 'Replacement login information for [user:name] at [site:name]');
+  variable_set('user_mail_register_admin_created_body', '[user:name],
+
+A site administrator at [site:name] has created an account for you. You may now log in by clicking this link or copying and pasting it to your browser:
+
+[user:one-time-login-url]
+
+This link can only be used once to log in and will lead you to a page where you can set your password.
+
+After setting your password, you will be able to log in at [site:login-url] in the future using:
+
+username: [user:name]
+password: Your password
+
+--  [site:name] team');
+  variable_set('user_mail_register_admin_created_subject', 'An administrator created an account for you at [site:name]');
+  variable_set('user_mail_register_no_approval_required_body', '[user:name],
+
+Thank you for registering at [site:name]. You may now log in by clicking this link or copying and pasting it to your browser:
+
+[user:one-time-login-url]
+
+This link can only be used once to log in and will lead you to a page where you can set your password.
+
+After setting your password, you will be able to log in at [site:login-url] in the future using:
+
+username: [user:name]
+password: Your password
+
+--  [site:name] team');
+  variable_set('user_mail_register_no_approval_required_subject', 'Account details for [user:name] at [site:name]');
+  variable_set('user_mail_register_pending_approval_body', '[user:name],
+
+Thank you for registering at [site:name]. Your application for an account is currently pending approval. Once it has been approved, you will receive another e-mail containing information about how to log in, set your password, and other details.
+
+
+--  [site:name] team');
+  variable_set('user_mail_register_pending_approval_subject', 'Account details for [user:name] at [site:name] (pending admin approval)');
+  variable_set('user_mail_status_activated_body', '[user:name],
+
+Your account at [site:name] has been activated.
+
+You may now log in by clicking this link or copying and pasting it into your browser:
+
+[user:one-time-login-url]
+
+This link can only be used once to log in and will lead you to a page where you can set your password.
+
+After setting your password, you will be able to log in at [site:login-url] in the future using:
+
+username: [user:name]
+password: Your password
+
+--  [site:name] team');
+  variable_set('user_mail_status_activated_notify', '1');
+  variable_set('user_mail_status_activated_subject', 'Account details for [user:name] at [site:name] (approved)');
+  variable_set('user_mail_status_blocked_body', '[user:name],
+
+Your account on [site:name] has been blocked.
+
+--  [site:name] team');
+  variable_set('user_mail_status_blocked_notify', '0');
+  variable_set('user_mail_status_blocked_subject', 'Account details for [user:name] at [site:name] (blocked)');
+  variable_set('user_mail_status_canceled_body', '[user:name],
+
+Your account on [site:name] has been canceled.
+
+--  [site:name] team');
+  variable_set('user_mail_status_canceled_notify', '0');
+  variable_set('user_mail_status_canceled_subject', 'Account details for [user:name] at [site:name] (canceled)');
+  variable_set('user_pictures', '0');
+  variable_set('user_picture_default', '');
+  variable_set('user_picture_dimensions', '1024x1024');
+  variable_set('user_picture_file_size', '800');
+  variable_set('user_picture_guidelines', '');
+  variable_set('user_picture_path', 'pictures');
+  variable_set('user_picture_style', 'thumbnail');
+  variable_set('user_readonly', array(
+  'user_readonly' => array(
+    'mode' => 'allow',
+    'roles' => array(
+      3 => '3',
+      2 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'disable',
+  ),
+  'name' => array(
+    'mode' => 'default',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+  'mail' => array(
+    'mode' => 'allow',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+  'pass' => array(
+    'mode' => 'default',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+  'status' => array(
+    'mode' => 'default',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+  'roles' => array(
+    'mode' => 'default',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+  'notify' => array(
+    'mode' => 'default',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+  'signature' => array(
+    'mode' => 'default',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+  'picture' => array(
+    'mode' => 'default',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+  'picture_current' => array(
+    'mode' => 'default',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+  'picture_delete' => array(
+    'mode' => 'default',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+  'picture_upload' => array(
+    'mode' => 'default',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+  'submit' => array(
+    'mode' => 'default',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+  'cancel' => array(
+    'mode' => 'default',
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+      6 => 0,
+    ),
+    'action' => 'default',
+  ),
+));
+  variable_set('user_register', '0');
+  variable_set('user_signatures', '0');
+  variable_set('workflow_brief', array(
+  'node',
+));
+  variable_set('404_fast_paths_exclude', '/\/(?:styles)\//');
+  variable_set('404_fast_paths', '/\.(?:txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i');
+  variable_set('404_fast_html', '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server.</p></body></html>');
+}

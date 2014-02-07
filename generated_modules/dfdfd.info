@@ -1,0 +1,4 @@
+name = dfdfd
+description = Export Drupal settings dfdfd
+package = Export Settings
+core = 7.x
