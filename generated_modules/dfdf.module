@@ -1,8 +1,0 @@
-<?php
-/**
-* Implements hook_enable().
-*/
-dfdf_enable() {
-  variable_set('additional_settings__active_tab_brief', 'edit-comment');
-  variable_set('admin_theme', 'seven');
-}

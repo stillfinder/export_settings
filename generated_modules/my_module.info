@@ -1,4 +1,0 @@
-name = my_module
-description = Export Drupal settings my_module
-package = Export Settings
-core = 7.x

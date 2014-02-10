@@ -1,1 +1,0 @@
-  variable_set('admin_theme', 'seven');  variable_set('clean_url', '1');
