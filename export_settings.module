@@ -84,6 +84,7 @@ function export_settings_vars_to_module_file($form, $form_state) {
       }
       else {
         $variable = "'" . $variable . "'";
+        // $variable = drupal_var_export($variable);
       }
       /*
         TODO Fix ' in $variable. (for example, replase ' -> \')
