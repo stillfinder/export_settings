@@ -116,9 +116,13 @@ function export_settings_vars_to_module_file($form, $form_state) {
   $contents = file_get_contents($path . $module_name . '.info');
   print export_settings_tar_create($module_name . '/' . $module_name . '.info', $contents);
   print pack("a1024", "");
-  /*
-    TODO remove created files in generated_modules dir
-  */
+
+ if(is_file($path . $module_name . '.module')){
+ unlink($path . $module_name . '.module');
+}
+ if(is_file($path . $module_name . '.info')){
+ unlink($path . $module_name . '.info');
+}
   exit;
 }
 
