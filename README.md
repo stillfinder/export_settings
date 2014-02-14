@@ -19,3 +19,7 @@ Usage
 2. Select settings for export.
 3. Enter name of module with settings.
 4. Push Export Settings button.
+
+
+Developed by Stillfinder.
+http://stillfinder.net
