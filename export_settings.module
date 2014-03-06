@@ -34,7 +34,7 @@ function export_settings_vars_form($form, &$form_state) {
 
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Generate module'),
+    '#value' => t('Generate & download module'),
   );
 
   include_once DRUPAL_ROOT . '/includes/utility.inc';
@@ -43,20 +43,22 @@ function export_settings_vars_form($form, &$form_state) {
     if (is_array($value)) {
       $value = '<pre>' . drupal_var_export($value) . '</pre>';
     }
-    $vars[] = array('id' => $key, 'value_name' => $key, 'variable' => $value);
+    $vars[] = array('id' => $key, 'variable_name' => $key, 'variable_value' => $value);
   }
 
   $header = array(
-    'value_name' => t('Value Name'),
-    'variable' => t('Variable'),
+    'variable_name' => t('Variable Name'),
+    'variable_value' => t('Variable Value'),
   );
+
   $options = array();
   foreach ($vars as $var) {
     $options[$var['id']] = array(
-      'value_name' => $var['value_name'],
-      'variable' => $var['variable'],
+      'variable_name' => $var['variable_name'],
+      'variable_value' => $var['variable_value'],
     );
   }
+
   $form['table'] = array(
     '#type' => 'tableselect',
     '#header' => $header,
@@ -67,15 +69,15 @@ function export_settings_vars_form($form, &$form_state) {
   return $form;
 }
 
-function export_settings_vars_to_module_file($form, $form_state) {
-  // Create array of .module file
+function export_settings_vars_form_submit($form, &$form_state) {
+  // Create array of .module file ===========================
   $module_name   = $form_state['values']['module_name'] == '' ? 'my_module' : $form_state['values']['module_name'];
   $module_code   = array();
-  $module_code[] = "<?php\n";
-  $module_code[] = "/**\n";
-  $module_code[] = "* Implements hook_enable().\n";
-  $module_code[] = "*/\n";
-  $module_code[] = 'function ' . $module_name . "_enable() {\n";
+  $module_code[] = "<?php";
+  $module_code[] = "/**";
+  $module_code[] = "* Implements hook_enable().";
+  $module_code[] = "*/";
+  $module_code[] = 'function ' . $module_name . "_enable() {";
   foreach ($form_state['values']['table'] as $selected_item) {
     if ($selected_item) {
       $variable = variable_get($selected_item);
@@ -83,46 +85,30 @@ function export_settings_vars_to_module_file($form, $form_state) {
         $variable = drupal_var_export($variable);
       }
       else {
+        $variable = addslashes($variable);
         $variable = "'" . $variable . "'";
-        // $variable = drupal_var_export($variable);
       }
-      /*
-        TODO Fix ' in $variable. (for example, replase ' -> \')
-      */
-      $module_code[] = "  variable_set('$selected_item', $variable);\n";
+      $module_code[] = "  variable_set('$selected_item', $variable);";
     }
   }
-  $module_code[] = "}\n";
+  $module_code[] = "}";
 
-  // save file into generated_modules folder
-  $path = drupal_get_path('module', 'export_settings') . '/generated_modules/';
-  file_put_contents($path . '/' . $module_name . '.module', $module_code);
-
-  // Create array of .info file
+  // Create array of .info file =============================
   $module_info_file   = array();
-  $module_info_file[] = "name = " . $module_name . "\n";
-  $module_info_file[] = "description = Export Drupal settings " . $module_name . "\n";
-  $module_info_file[] = "package = Export Settings\n";
-  $module_info_file[] = "core = 7.x\n";
-  file_put_contents($path . $module_name . '.info', $module_info_file);
+  $module_info_file[] = "name = " . $module_name;
+  $module_info_file[] = "description = Export Drupal settings " . $module_name;
+  $module_info_file[] = "package = Export Settings";
+  $module_info_file[] = "core = 7.x";
 
-  // print tar file
+  // print tar file =========================================
   drupal_add_http_header('Content-type', 'application/x-tar');
-  drupal_add_http_header('Content-Disposition', 'attachment; filename="' . $module_name . 'tar"');
+  drupal_add_http_header('Content-Disposition', 'attachment; filename="' . $module_name . '"');
   drupal_send_headers();
 
-  $contents = file_get_contents($path . $module_name . '.module');
-  print export_settings_tar_create($module_name . '/' . $module_name . '.module', $contents);
-  $contents = file_get_contents($path . $module_name . '.info');
-  print export_settings_tar_create($module_name . '/' . $module_name . '.info', $contents);
-  print pack("a1024", "");
+  print export_settings_tar_create($module_name . '/' . $module_name . '.module', implode("\n", $module_code));
+  print export_settings_tar_create($module_name . '/' . $module_name . '.info', implode("\n", $module_info_file));
 
- if(is_file($path . $module_name . '.module')){
- unlink($path . $module_name . '.module');
-}
- if(is_file($path . $module_name . '.info')){
- unlink($path . $module_name . '.info');
-}
+  print pack("a1024", "");
   exit;
 }
 
@@ -138,12 +124,6 @@ function export_settings_vars_to_module_file($form, $form_state) {
  *   A string of the tar file contents.
  */
 function export_settings_tar_create($name, $contents) {
-  /* http://www.mkssoftware.com/docs/man4/tar.4.asp */
-
-
-  /* http://www.phpclasses.org/browse/file/21200.html */
-
-
   $tar = '';
   $bigheader = $header = '';
   if (strlen($name) > 100) {
@@ -212,67 +192,5 @@ function export_settings_tar_create($name, $contents) {
     $tar .= pack("a512", $item);
   }
   return $tar;
-}
-
-function export_settings_vars_form_submit($form, &$form_state) {
-  export_settings_vars_to_module_file($form, &$form_state);
-  return;
-
-  $module_code = '';
-  foreach ($form_state['values']['table'] as $selected_item) {
-    if ($selected_item) {
-      $variable = variable_get($selected_item);
-      if (is_array($variable)) {
-        $variable = drupal_var_export($variable);
-      }
-      $module_code .= "  variable_set('$selected_item', '$variable');\n";
-    }
-  }
-  if ($module_code) {
-    $module_name = $form_state['values']['module_name'] == '' ? 'my_module' : $form_state['values']['module_name'];
-    $module_code = '<?php
-
-/**
-* Implements hook_enable().
-*/
-' . $module_name . '_enable() {
-' . $module_code . '}';
-
-    dsm($module_code);
-
-    // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-    // header('Content-Type: text/module');
-    // header('Content-Disposition: attachment; filename="my_module.module"');
-    // die(print $module_code);
-  }
-}
-
-function vars_to_html($vars) {
-  include_once DRUPAL_ROOT . '/includes/utility.inc';
-  $res = '<table><tbody>';
-  foreach ($vars as $key => $value) {
-    $res .= '<tr>';
-    $res .= '<td>' . $key . '</td>';
-    if (is_array($value)) {
-      $value = '<pre>' . drupal_var_export($value) . '</pre>';
-    }
-    $res .= '<td>' . $value . '</td>';
-    $res .= '</tr>';
-  }
-  $res .= '</tbody></table>';
-  return $res;
-}
-
-function recurseTree($var) {
-  $out = '<li>';
-  foreach ($var as $v) {
-    if (is_array($v)) {
-      $out .= '<ul>' . recurseTree($v) . '</ul>';
-    }
-    else {
-      $out .= $v;
-    }
-  }
-  return $out . '</li>';
 }
 
