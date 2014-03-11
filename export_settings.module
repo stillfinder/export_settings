@@ -1,4 +1,10 @@
 <?php
+/**
+  * Developed by Stillfinder.
+  * http://stillfinder.net
+  * https://github.com/stillfinder/export_settings
+*/
+
 
 /**
  * Implements hook_menu().

@@ -3,9 +3,12 @@ export_settings
 
 Drupal Export Settings module
 
+* Developed by Stillfinder.
+* http://stillfinder.net
+* https://github.com/stillfinder/export_settings
+
 This module can be used for export settings of Drupal site to
-another environment. This module enables you to select which settings
-of site you want to export.
+another environment. This module enables you to select which settings of site you want to export.
 
 Installation
 ------------
@@ -21,5 +24,3 @@ Usage
 4. Push Export Settings button.
 
 
-Developed by Stillfinder.
-http://stillfinder.net

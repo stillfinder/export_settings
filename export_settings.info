@@ -1,5 +1,5 @@
 name = Export settings
-description = Export Drupal settings into module
+description = Export Drupal system settings into  generated module. Developed by Stillfinder. (http://stillfinder.net)
 package = Deploy
 core = 7.x
 configure = admin/config/system/export_settings
