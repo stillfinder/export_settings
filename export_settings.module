@@ -13,18 +13,13 @@ function export_settings_menu() {
   $items['admin/config/system/export_settings'] = array(
     'title' => 'Export site settings',
     'description' => t('Export settings'),
-    'page callback' => 'export_settings_page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('export_settings_vars_form'),
     'access arguments' => array('administer site configuration'),
     'type' => MENU_NORMAL_ITEM,
   );
 
   return $items;
-}
-
-function export_settings_page() {
-  $form = drupal_get_form('export_settings_vars_form');
-  $form = drupal_render($form);
-  return $form;
 }
 
 function export_settings_vars_form($form, &$form_state) {
