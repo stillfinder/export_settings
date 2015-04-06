@@ -4,7 +4,7 @@ export_settings
 Drupal Export Settings module
 
 * Developed by Stillfinder.
-* http://stillfinder.net
+* http://stillfinder.net/en/project/export-settings-drupal-modul-dlya-eksporta-nastroek-sayta
 * https://github.com/stillfinder/export_settings
 
 This module can be used for export settings of Drupal site to
