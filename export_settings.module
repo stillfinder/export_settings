@@ -1,10 +1,10 @@
 <?php
-/**
-  * Developed by Stillfinder.
-  * http://stillfinder.net
-  * https://github.com/stillfinder/export_settings
-*/
 
+/**
+ * Developed by Stillfinder.
+ * http://stillfinder.net
+ * https://github.com/stillfinder/export_settings
+ */
 
 /**
  * Implements hook_menu().
@@ -40,10 +40,12 @@ function export_settings_vars_form($form, &$form_state) {
 
   include_once DRUPAL_ROOT . '/includes/utility.inc';
   global $conf;
+
   foreach ($conf as $key => $value) {
-    if (is_array($value)) {
+    if (is_array($value) || is_object($value)) {
       $value = '<pre>' . drupal_var_export($value) . '</pre>';
     }
+
     $vars[] = array('id' => $key, 'variable_name' => $key, 'variable_value' => $value);
   }
 
