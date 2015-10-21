@@ -3,7 +3,7 @@ Export Settings
 
 Drupal 'Export Settings' module
 
-* Developed by Stillfinder.
+* Developed by Stillfinder - http://stillfinder.net/en
 * http://stillfinder.net/en/project/export-settings-drupal-modul-dlya-eksporta-nastroek-sayta
 * https://github.com/stillfinder/export_settings
 
@@ -24,5 +24,3 @@ Usage
 2. Select settings for export.
 3. Enter name of module with settings.
 4. Push Export Settings button.
-
-
