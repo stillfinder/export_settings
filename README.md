@@ -13,7 +13,7 @@ another environment. This module enables you to select which settings of site yo
 Installation
 ------------
 1. Download latest module code or use 'git clone https://github.com/stillfinder/export_settings.git'.
-2. Enable module.
+2. Enable the module.
 
 
 Usage
